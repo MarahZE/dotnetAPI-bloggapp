@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
+using backend.Dtos.User;
 using backend.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,16 @@ namespace backend.Controllers
 
             return Ok(user.ToUserDto());
 
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateUserRequestDto userDto)
+        {
+            var userModel = userDto.ToUserFromCreateDto();
+            _context.Users.Add(userModel);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetById), new { id = userModel.UserId }, userModel.ToUserDto());
         }
 
     }

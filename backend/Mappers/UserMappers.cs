@@ -22,5 +22,17 @@ namespace backend.Mappers
             };
         }
 
+        public static User ToUserFromCreateDto(this CreateUserRequestDto userDto)
+        {
+            return new User
+            {
+                Username = userDto.Username,
+                Email = userDto.Email,
+                Password = userDto.Password,
+                ProfilePictureUrl = userDto.ProfilePictureUrl,
+                Bio = userDto.Bio
+            };
+        }
+
     }
 }
