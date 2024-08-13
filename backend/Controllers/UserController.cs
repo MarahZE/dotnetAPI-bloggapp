@@ -53,24 +53,44 @@ namespace backend.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateUserRequestDto updateUserDto)
+        public IActionResult Update([FromRoute] int id, [FromBody] string updateBio)
         {
             var userModel = _context.Users.FirstOrDefault(s => s.UserId == id);
 
-            if (userModel == null) {
+            if (userModel == null)
+            {
                 return NotFound();
             }
 
-            userModel.Username = updateUserDto.Username;
+            //UpdateUserRequestDto updateUserDto
+            /*userModel.Username = updateUserDto.Username;
             userModel.Email = updateUserDto.Email;
             userModel.Password = updateUserDto.Password;
             userModel.ProfilePictureUrl = updateUserDto.ProfilePictureUrl;
-            userModel.Bio = updateUserDto.Bio;
+            userModel.Bio = updateUserDto.Bio;*/
+            userModel.Bio = updateBio;
 
             _context.SaveChanges();
 
             return Ok(userModel.ToUserDto());
 
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var userModel = _context.Users.FirstOrDefault(s => s.UserId == id);
+
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(userModel);
+            _context.SaveChanges();
+
+            return NoContent();
         }
 
     }
