@@ -51,5 +51,27 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetById), new { id = userModel.UserId }, userModel.ToUserDto());
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateUserRequestDto updateUserDto)
+        {
+            var userModel = _context.Users.FirstOrDefault(s => s.UserId == id);
+
+            if (userModel == null) {
+                return NotFound();
+            }
+
+            userModel.Username = updateUserDto.Username;
+            userModel.Email = updateUserDto.Email;
+            userModel.Password = updateUserDto.Password;
+            userModel.ProfilePictureUrl = updateUserDto.ProfilePictureUrl;
+            userModel.Bio = updateUserDto.Bio;
+
+            _context.SaveChanges();
+
+            return Ok(userModel.ToUserDto());
+
+        }
+
     }
 }
