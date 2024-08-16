@@ -9,7 +9,7 @@ namespace backend.Mappers
 {
     public static class PostMappers
     {
-        public static PostDto ToUserDto(this Post postModel)
+        public static PostDto ToPostDto(this Post postModel)
         {
             return new PostDto
             {
@@ -17,10 +17,12 @@ namespace backend.Mappers
                 Title = postModel.Title,
                 Content = postModel.Content,
                 DatePublished = postModel.DatePublished,
-                AuthorId = postModel.AuthorId,
+                UserId = postModel.UserId,
 
             };
         }
+
+
 
     }
 }

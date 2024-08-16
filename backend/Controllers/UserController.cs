@@ -23,7 +23,7 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userRepo.GetAllUsersAsync();
             var userDTo = users.Select(s => s.ToUserDto());
@@ -32,7 +32,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetUserById([FromRoute] int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
 
@@ -46,17 +46,17 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateUserRequestDto userDto)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserRequestDto userDto)
         {
             var userModel = userDto.ToUserFromCreateDto();
             await _userRepo.CreateUserAsync(userModel);
 
-            return CreatedAtAction(nameof(GetById), new { id = userModel.UserId }, userModel.ToUserDto());
+            return CreatedAtAction(nameof(GetUserById), new { id = userModel.UserId }, userModel.ToUserDto());
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateUserRequestDto updateUserDto)
+        public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserRequestDto updateUserDto)
         {
             var userModel = await _userRepo.UpdateUsersAsync(id, updateUserDto);
 
@@ -72,7 +72,7 @@ namespace backend.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
             var userModel = await _userRepo.DeleteUserAsync(id);
 

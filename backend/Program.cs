@@ -1,5 +1,6 @@
 using backend.Controllers.Interfaces;
 using backend.Data;
+using backend.Interfaces;
 using backend.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<ApplicationsDbContext>(options =>
 });
 
 builder.Services.AddScoped<IUsersRepository, UserRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 var app = builder.Build();
 

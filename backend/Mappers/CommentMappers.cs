@@ -9,14 +9,14 @@ namespace backend.Mappers
 {
     public static class CommentMappers
     {
-        public static CommentDto ToUserDto(this Comment commentModel)
+        public static CommentDto ToCommentDto(this Comment commentModel)
         {
             return new CommentDto
             {
                 CommentId = commentModel.CommentId,
                 Content = commentModel.Content,
                 DatePublished = commentModel.DatePublished,
-                AuthorID = commentModel.AuthorID,
+                UserId = commentModel.UserId,
                 PostId = commentModel.PostId,
 
             };

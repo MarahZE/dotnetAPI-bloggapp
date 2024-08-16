@@ -22,7 +22,7 @@ namespace backend.Models
         public int CommentId { get; set; }
         public string Content { get; set; } = string.Empty;
         public DateTime DatePublished { get; set; }
-        public int? AuthorID { get; set; }
+        public int? UserId { get; set; }
         public int? PostId { get; set; }
         public Post? Post { get; set; }
         public User? User { get; set; }

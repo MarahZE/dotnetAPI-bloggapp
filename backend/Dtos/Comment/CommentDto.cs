@@ -12,9 +12,8 @@ namespace backend.Dtos.Comment
         public int CommentId { get; set; }
         public string Content { get; set; } = string.Empty;
         public DateTime DatePublished { get; set; }
-        public int? AuthorID { get; set; }
+        public int? UserId { get; set; }
         public int? PostId { get; set; }
-        public PostDto? PostDto { get; set; }
-        public UserDto? UserDto { get; set; }
+
     }
 }
