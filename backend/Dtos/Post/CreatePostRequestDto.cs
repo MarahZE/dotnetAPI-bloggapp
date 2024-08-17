@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace backend.Dtos.Post
 {
-    public class CreatePostRequest
+    public class CreatePostRequestDto
     {
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public DateTime DatePublished { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

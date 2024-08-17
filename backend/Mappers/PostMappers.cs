@@ -22,6 +22,18 @@ namespace backend.Mappers
             };
         }
 
+        public static Post ToPostFromCreateDto(this CreatePostRequestDto postDto)
+        {
+            return new Post
+            {
+                Title = postDto.Title,
+                Content = postDto.Content,
+                DatePublished = postDto.DatePublished,
+                UserId = postDto.UserId,
+
+            };
+        }
+
 
 
     }
