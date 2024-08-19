@@ -31,7 +31,7 @@ namespace backend.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserById([FromRoute] int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
@@ -55,7 +55,7 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserRequestDto updateUserDto)
         {
             var userModel = await _userRepo.UpdateUsersAsync(id, updateUserDto);
@@ -71,7 +71,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
             var userModel = await _userRepo.DeleteUserAsync(id);

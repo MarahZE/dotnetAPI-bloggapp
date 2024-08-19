@@ -36,7 +36,7 @@ namespace backend.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetPostById([FromRoute] int id)
         {
             var post = await _postRepo.GetPostByIDAsync(id);
@@ -50,9 +50,13 @@ namespace backend.Controllers
 
         }
 
-        [HttpPost("{userId}")]
+        [HttpPost("{userId:int}")]
         public async Task<IActionResult> CreatePost([FromRoute] int userId, [FromBody] CreatePostRequestDto postDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (!await _userRepo.UserExists(userId))
             {
                 return BadRequest("User dose not exists");
@@ -64,7 +68,7 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        [Microsoft.AspNetCore.Mvc.Route("{id}")]
+        [Microsoft.AspNetCore.Mvc.Route("{id:int}")]
         public async Task<IActionResult> UpdatePost([FromRoute] int id, [FromBody] UpdatePostRequestDto updatePostRequestDto)
         {
             var postModel = await _postRepo.UpdatePostAsync(id, updatePostRequestDto);
@@ -79,7 +83,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete]
-        [Microsoft.AspNetCore.Mvc.Route("{id}")]
+        [Microsoft.AspNetCore.Mvc.Route("{id:int}")]
         public async Task<IActionResult> DeletePost([FromRoute] int id)
         {
             var postModel = await _postRepo.DeletePostAsync(id);

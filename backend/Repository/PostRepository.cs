@@ -45,12 +45,12 @@ namespace backend.Repository
 
         public async Task<List<Post>> GetAllPostsAsync()
         {
-            return await _context.Posts.ToListAsync();
+            return await _context.Posts.Include(c => c.Comments).ToListAsync();
         }
 
         public async Task<Post?> GetPostByIDAsync(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts.Include(c => c.Comments).FirstOrDefaultAsync(i => i.PostId == id);
 
             if (post == null)
             {

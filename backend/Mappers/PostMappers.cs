@@ -18,6 +18,7 @@ namespace backend.Mappers
                 Content = postModel.Content,
                 DatePublished = postModel.DatePublished,
                 UserId = postModel.UserId,
+                Comments = postModel.Comments.Select(c => c.ToCommentDto()).ToList()
 
             };
         }

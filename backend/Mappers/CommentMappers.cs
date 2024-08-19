@@ -22,5 +22,16 @@ namespace backend.Mappers
             };
         }
 
+        public static Comment ToCommentFromCreateDto(this CreateCommentRequestDto commentDto, int userId, int postId)
+        {
+            return new Comment
+            {
+                Content = commentDto.Content,
+                DatePublished = commentDto.DatePublished,
+                UserId = userId,
+                PostId = postId
+            };
+        }
+
     }
 }

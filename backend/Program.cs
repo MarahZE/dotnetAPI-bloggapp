@@ -24,6 +24,7 @@ builder.Services.AddDbContext<ApplicationsDbContext>(options =>
 
 builder.Services.AddScoped<IUsersRepository, UserRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 
