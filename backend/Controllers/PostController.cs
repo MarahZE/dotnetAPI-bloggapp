@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Controllers.Interfaces;
 using backend.Dtos.Post;
 using backend.Interfaces;
 using backend.Mappers;
@@ -16,10 +17,12 @@ namespace backend.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepo;
+        private readonly IUsersRepository _userRepo;
 
-        public PostController(IPostRepository postRepository)
+        public PostController(IPostRepository postRepository, IUsersRepository usersRepository)
         {
             _postRepo = postRepository;
+            _userRepo = usersRepository;
 
         }
 
@@ -47,13 +50,46 @@ namespace backend.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] CreatePostRequestDto postDto)
+        [HttpPost("{userId}")]
+        public async Task<IActionResult> CreatePost([FromRoute] int userId, [FromBody] CreatePostRequestDto postDto)
         {
-            var post = postDto.ToPostFromCreateDto();
+            if (!await _userRepo.UserExists(userId))
+            {
+                return BadRequest("User dose not exists");
+            }
+            var post = postDto.ToPostFromCreateDto(userId);
             await _postRepo.CreatePostAsync(post);
 
             return CreatedAtAction(nameof(GetPostById), new { id = post.PostId }, post.ToPostDto());
+        }
+
+        [HttpPut]
+        [Microsoft.AspNetCore.Mvc.Route("{id}")]
+        public async Task<IActionResult> UpdatePost([FromRoute] int id, [FromBody] UpdatePostRequestDto updatePostRequestDto)
+        {
+            var postModel = await _postRepo.UpdatePostAsync(id, updatePostRequestDto);
+
+            if (postModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(postModel.ToPostDto());
+
+        }
+
+        [HttpDelete]
+        [Microsoft.AspNetCore.Mvc.Route("{id}")]
+        public async Task<IActionResult> DeletePost([FromRoute] int id)
+        {
+            var postModel = await _postRepo.DeletePostAsync(id);
+
+            if (postModel == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
 

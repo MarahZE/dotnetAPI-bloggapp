@@ -170,3 +170,7 @@
 /Users/marahzeibak/dotnetAPI-bloggapp/backend/obj/Debug/net8.0/backend.pdb
 /Users/marahzeibak/dotnetAPI-bloggapp/backend/obj/Debug/net8.0/backend.genruntimeconfig.cache
 /Users/marahzeibak/dotnetAPI-bloggapp/backend/obj/Debug/net8.0/ref/backend.dll
+/Users/marahzeibak/dotnetAPI-bloggapp/backend/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/marahzeibak/dotnetAPI-bloggapp/backend/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/Users/marahzeibak/dotnetAPI-bloggapp/backend/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/marahzeibak/dotnetAPI-bloggapp/backend/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll

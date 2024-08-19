@@ -18,7 +18,8 @@ namespace backend.Mappers
                 Email = userModel.Email,
                 Password = userModel.Password,
                 ProfilePictureUrl = userModel.ProfilePictureUrl,
-                Bio = userModel.Bio
+                Bio = userModel.Bio,
+                Posts = userModel.Posts.Select(p => p.ToPostDto()).ToList()
             };
         }
 

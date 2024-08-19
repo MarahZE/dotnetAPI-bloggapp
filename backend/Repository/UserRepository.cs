@@ -43,12 +43,12 @@ namespace backend.Repository
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(p => p.Posts).ToListAsync();
         }
 
         public async Task<User?> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(p => p.Posts).FirstOrDefaultAsync(i => i.UserId == id);
 
             if (user == null)
             {
@@ -78,6 +78,11 @@ namespace backend.Repository
             await _context.SaveChangesAsync();
 
             return userModel;
+        }
+
+        public Task<bool> UserExists(int userId)
+        {
+            return _context.Users.AnyAsync(u => u.UserId == userId);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace backend.Controllers.Interfaces
         Task<User> CreateUserAsync(User userModel);
         Task<User?> UpdateUsersAsync(int id, UpdateUserRequestDto updateUserRequestDto);
         Task<User?> DeleteUserAsync(int id);
-
+        Task<bool> UserExists(int userId);
 
 
     }

@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace backend.Dtos.Post
 {
-    public class CreatePostRequestDto
+    public class UpdatePostRequestDto
     {
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
-        public DateTime DatePublished { get; set; }
-
     }
 }
