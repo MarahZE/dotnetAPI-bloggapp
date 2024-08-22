@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Controllers.Interfaces;
 using backend.Dtos.Post;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Mappers;
 using Microsoft.AspNetCore.Components;
@@ -27,9 +28,9 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<IActionResult> GetAllPosts([FromQuery] QueryObject query)
         {
-            var posts = await _postRepo.GetAllPostsAsync();
+            var posts = await _postRepo.GetAllPostsAsync(query);
             var postDto = posts.Select(p => p.ToPostDto());
 
             return Ok(postDto);

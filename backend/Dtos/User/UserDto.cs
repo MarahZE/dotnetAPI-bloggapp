@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Dtos.Comment;
 using backend.Dtos.Post;
 
 namespace backend.Dtos.User

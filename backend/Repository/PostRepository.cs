@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Dtos.Post;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -43,9 +44,16 @@ namespace backend.Repository
             return postModel;
         }
 
-        public async Task<List<Post>> GetAllPostsAsync()
+        public async Task<List<Post>> GetAllPostsAsync(QueryObject query)
         {
-            return await _context.Posts.Include(c => c.Comments).ToListAsync();
+            var posts = _context.Posts.Include(c => c.Comments).AsQueryable();
+
+            if (query != null && query.UserId.HasValue)
+            {
+                posts = posts.Where(p => p.UserId == query.UserId);
+            }
+
+            return await posts.ToListAsync();
         }
 
         public async Task<Post?> GetPostByIDAsync(int id)

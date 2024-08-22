@@ -26,9 +26,9 @@ namespace backend.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userRepo.GetAllUsersAsync();
-            var userDTo = users.Select(s => s.ToUserDto());
+            var userDto = users.Select(s => s.ToUserDto());
 
-            return Ok(users);
+            return Ok(userDto);
         }
 
         [HttpGet("{id:int}")]
