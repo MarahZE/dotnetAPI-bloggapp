@@ -45,6 +45,19 @@ namespace backend.Controllers
 
         }
 
+        [HttpGet("{email},{password}")]
+        public async Task<IActionResult> GetUserByEmail([FromRoute] string email, string password)
+        {
+            var user = await _userRepo.GetUserByEmailAsync(email, password);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user.ToUserDto());
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequestDto userDto)
         {

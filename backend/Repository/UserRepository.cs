@@ -63,6 +63,18 @@ namespace backend.Repository
             return await _context.Users.Include(p => p.Posts).ThenInclude(c => c.Comments).ToListAsync();
         }
 
+        public async Task<User?> GetUserByEmailAsync(string email, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user;
+        }
+
         public async Task<User?> GetUserByIdAsync(int id)
         {
             var user = await _context.Users.Include(p => p.Posts).FirstOrDefaultAsync(i => i.UserId == id);
