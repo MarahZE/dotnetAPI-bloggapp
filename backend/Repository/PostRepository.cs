@@ -31,17 +31,28 @@ namespace backend.Repository
 
         public async Task<Post?> DeletePostAsync(int postId)
         {
-            var postModel = await _context.Posts.FirstOrDefaultAsync(p => p.PostId == postId);
+            var postModel = await _context.Posts.Include(c => c.Comments).FirstOrDefaultAsync(p => p.PostId == postId);
 
             if (postModel == null)
             {
                 return null;
             }
 
-            _context.Remove(postModel);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Delete related Comments 
+                _context.Comments.RemoveRange(postModel.Comments);
 
-            return postModel;
+                _context.Remove(postModel);
+                await _context.SaveChangesAsync();
+
+                return postModel;
+
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new InvalidOperationException("An error occurred while deleting the user.", ex);
+            }
         }
 
         public async Task<List<Post>> GetAllPostsAsync(QueryObject query)
@@ -52,8 +63,8 @@ namespace backend.Repository
             {
                 posts = posts.Where(p => p.UserId == query.UserId);
             }
-
-            return await posts.ToListAsync();
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+            return await posts.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
         public async Task<Post?> GetPostByIDAsync(int id)

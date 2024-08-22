@@ -15,7 +15,7 @@ namespace backend.Dtos.User
         public string Password { get; set; } = string.Empty;
         public string ProfilePictureUrl { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
-        public List<PostDto> Posts { get; set; }
+        public List<PostDto>? Posts { get; set; }
 
     }
 }

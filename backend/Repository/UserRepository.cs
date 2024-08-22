@@ -29,21 +29,38 @@ namespace backend.Repository
 
         public async Task<User?> DeleteUserAsync(int id)
         {
-            var userModel = await _context.Users.FirstOrDefaultAsync(s => s.UserId == id);
+            var userModel = await _context.Users.Include(p => p.Posts).ThenInclude(c => c.Comments).FirstOrDefaultAsync(s => s.UserId == id);
 
             if (userModel == null)
             {
                 return null;
             }
-            _context.Users.Remove(userModel);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Delete related comments
+                foreach (var post in userModel.Posts)
+                {
+                    _context.Comments.RemoveRange(post.Comments);
+                }
+                // Delete related posts 
+                _context.Posts.RemoveRange(userModel.Posts);
 
-            return userModel;
+                _context.Users.Remove(userModel);
+                await _context.SaveChangesAsync();
+
+                return userModel;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new InvalidOperationException("An error occurred while deleting the user.", ex);
+            }
+
+
         }
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await _context.Users.Include(p => p.Posts).ToListAsync();
+            return await _context.Users.Include(p => p.Posts).ThenInclude(c => c.Comments).ToListAsync();
         }
 
         public async Task<User?> GetUserByIdAsync(int id)
